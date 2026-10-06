@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 4% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 4% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 4% 15%;
+    --primary: 217 70% 15%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 18% 96%;
+    --secondary-foreground: 217 74% 15%;
+    --muted: 220 18% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 217 60% 26%;
+    --accent-foreground: 0 0% 100%;
+    --energy: 24 95% 53%;
+    --energy-foreground: 0 0% 4%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 40%;
+    --success-foreground: 0 0% 100%;
+    --border: 216 25% 88%;
+    --input: 216 25% 88%;
+    --ring: 217 70% 15%;
+    --radius: 0.75rem;
+    --font-heading: 'Orbitron', 'Eurostile', 'Arial Narrow', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Orbitron', 'Eurostile', 'Arial Narrow', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --navy: 217 70% 15%;
+    --navy-light: 217 60% 26%;
+    --light-bg: 220 33% 96%;
+    --black: 0 0% 4%;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .font-orbitron {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+  }
+  .wordmark {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .btn-navy {
+    @apply bg-[hsl(var(--navy))] text-white font-orbitron uppercase tracking-wider rounded-[10px] px-6 py-3 min-h-[48px] inline-flex items-center justify-center gap-2 transition-all hover:bg-[hsl(var(--navy-light))] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-outline {
+    @apply border-2 border-[hsl(var(--navy))] text-[hsl(var(--navy))] font-orbitron uppercase tracking-wider rounded-[10px] px-6 py-3 min-h-[48px] inline-flex items-center justify-center gap-2 transition-all hover:bg-[hsl(var(--navy))] hover:text-white active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-energy {
+    @apply bg-[hsl(var(--energy))] text-[hsl(var(--energy-foreground))] font-orbitron uppercase tracking-wider rounded-[10px] px-6 py-3 min-h-[48px] inline-flex items-center justify-center gap-2 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .eyebrow {
+    @apply font-orbitron uppercase tracking-wider text-xs text-[hsl(var(--navy))];
+  }
+  .rule-energy {
+    @apply block h-1 w-12 rounded-full bg-[hsl(var(--energy))];
+  }
+  .input-field {
+    @apply w-full min-h-[48px] rounded-[10px] border border-[hsl(var(--border))] bg-white px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/20 transition-colors;
+  }
+  .card {
+    @apply bg-white rounded-[12px] border border-[hsl(var(--border))] shadow-sm;
+  }
+  .section-light {
+    @apply bg-[hsl(var(--light-bg))];
+  }
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+.hero-zoom {
+  animation: heroZoom 20s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom { animation: none; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  .print-roster { box-shadow: none !important; border: none !important; }
+}
+
+/* --- Turf fallback -------------------------------------------------------
+   Shown behind the hero when no hero image is set, so the page never looks
+   empty. Navy-to-black base, alternating faint green-gray mow stripes, and
+   thin white yard-line accents. Pure CSS, no image request. */
+.turf-fallback {
+  background-color: #0a0d10;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.13) 0 2px, transparent 2px 120px),
+    repeating-linear-gradient(90deg, rgba(150, 172, 150, 0.06) 0 60px, rgba(150, 172, 150, 0.015) 60px 120px),
+    linear-gradient(165deg, hsl(var(--navy)) 0%, #0a0a0a 58%, #000000 100%);
+}
+
+/* Bottom safe-area padding for the phone navigation bar. */
+.pb-safe-nav {
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+}
+
+/* --- Phone ergonomics ----------------------------------------------------
+   These rules sit OUTSIDE Tailwind's cascade layers on purpose: unlayered
+   styles win over layered ones at equal specificity, so they reliably beat
+   the tracking-* and text-* utilities on small screens. */
+
+/* 16px minimum stops iOS Safari zooming in when a field is focused. */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  /* Orbitron is a very wide face — pull the tracking in so headings and
+     buttons never overflow a 360px phone. */
+  .font-orbitron,
+  .wordmark {
+    letter-spacing: 0.03em;
+  }
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: anywhere;
+  }
+}
